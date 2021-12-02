@@ -1,12 +1,16 @@
 pipeline {
 	agent none
 	stages {
+		stage('Build') { 
+			steps {
+				sh 'npm install' 
+			}
+		}
 		stage('Checkout SCM') {
 			steps {
 				git 'https://github.com/sebastiankzk/3103-practical-test'
 			}
-		}
-	
+		}	
 		stage('Integration UI Test') {
 			parallel {
 				stage('Deploy') {
