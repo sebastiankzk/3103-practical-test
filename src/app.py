@@ -8,6 +8,8 @@ import bleach
 app = Flask(__name__, template_folder='template')
 
 searches = {}
+special_characters = """"!@#$%^&*()-+?_=,<>/"""
+
 
 @app.route("/")
 def hello_world():
@@ -23,9 +25,13 @@ def search():
     if request.method == 'POST':
         # get input
         input = request.form.get('Search')
-        # sanitise input, eliminating XSS attacks
-        input = bleach.clean(input)
-        searches[search] = input
+        if any(c in special_characters for c in input):
+            return render_template('home.html')
+        else:
+            # sanitise input, eliminating XSS attacks
+            # input = bleach.clean(input)
+            searches[search] = input
+            return render_template('search.html', i=input)
 
 if __name__== "__main__": 
     app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
