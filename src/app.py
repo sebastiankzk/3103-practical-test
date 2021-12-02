@@ -29,7 +29,7 @@ def search():
             return render_template('home.html')
         else:
             # sanitise input, eliminating XSS attacks
-            # input = bleach.clean(input)
+            input = bleach.clean(input)
             searches[search] = input
             return render_template('search.html', i=input)
 
